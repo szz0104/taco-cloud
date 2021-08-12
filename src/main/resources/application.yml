@@ -1,6 +1,63 @@
+server:
+  # 应用服务 WEB 访问端口
+  port: 5555
+
 spring:
   application:
+    # 应用名称
     name: taco-cloud
 
-server:
-  port: 5555
+  sql:
+    init:
+      # 确定是否应执行初始化时应用的模式。默认：embedded
+      # always始终初始化数据库。embedded仅初始化嵌入式数据库。never永远不要初始化数据库。
+      mode: always
+      # 创建表的 Sql 语句位置
+      schema-locations: classpath:schema.sql
+      # 插入数据的 Sql 语句的位置
+      data-locations: classpath:data.sql
+
+  # ************H2  Begin****************
+  h2:
+    console:
+      # default true。命令行访问好数据库，链接 http://www.h2database.com/html/tutorial.html?highlight=Mac&search=mac#firstFound
+      enabled: true
+      # console url。Spring启动后，可以访问 http://127.0.0.1:8080/h2-console 查看数据库
+      path: /h2-console
+      settings:
+        # remote visit
+        web-allow-others: true
+        trace: false
+
+  datasource:
+    # 指定数据库的种类，这里 file意思是文件型数据库
+    url: jdbc:h2:file:~/test
+    # 指定Driver，有了Driver才能访问数据库
+    driver-class-name: org.h2.Driver
+    # 用户名密码不需要改，都是临时值
+    username: sa
+    password:
+
+  # THYMELEAF (ThymeleafAutoConfiguration)
+  thymeleaf:
+    # 开启 MVC Thymeleaf 视图解析（默认值： true ）
+    enabled: true
+    # 模板编码
+    encoding: UTF-8
+    # 开启模板缓存（默认值： true ）
+    cache: true
+    # 检查模板是否存在，然后再呈现
+    check-template: true
+    # 检查模板位置是否正确（默认值 :true ）
+    check-template-location: true
+    # 要运⽤于模板之上的模板模式。另⻅ StandardTemplate-ModeHandlers( 默认值： HTML)
+    mode: HTML
+    # 在构建 URL 时添加到视图名称前的前缀（默认值： classpath:/templates/ ）
+    prefix: classpath:/templates/
+    # 在构建 URL 时添加到视图名称后的后缀（默认值： .html ）
+    suffix: .html
+    # 要被排除在解析之外的视图名称列表，⽤逗号分隔
+    excluded-view-names:
+    servlet:
+      # Content-Type 的值（默认值： text/html ）
+      content-type: text/html
