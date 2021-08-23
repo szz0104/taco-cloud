@@ -30,6 +30,9 @@ public class Order {
 
     private Date placedAt;
 
+    @ManyToOne
+    private User user;
+
     @NotBlank(message = "Delivery name is required")
     private String deliveryName;
 

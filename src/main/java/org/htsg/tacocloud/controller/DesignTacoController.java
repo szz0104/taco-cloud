@@ -3,14 +3,18 @@ package org.htsg.tacocloud.controller;
 import org.htsg.tacocloud.entity.Ingredient;
 import org.htsg.tacocloud.entity.Order;
 import org.htsg.tacocloud.entity.Taco;
+import org.htsg.tacocloud.entity.User;
 import org.htsg.tacocloud.repository.IngredientRepository;
 import org.htsg.tacocloud.repository.TacoRepository;
+import org.htsg.tacocloud.repository.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,16 +26,14 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/design")
 @SessionAttributes("order")
 public class DesignTacoController {
-    final
+    @Resource
     IngredientRepository ingredientRepository;
 
-    final
+    @Resource
     TacoRepository tacoRepository;
 
-    public DesignTacoController(IngredientRepository ingredientRepository, TacoRepository tacoRepository) {
-        this.ingredientRepository = ingredientRepository;
-        this.tacoRepository = tacoRepository;
-    }
+    @Resource
+    UserRepository userRepository;
 
     @ModelAttribute(name = "order")
     public Order order() {
@@ -44,7 +46,7 @@ public class DesignTacoController {
     }
 
     @GetMapping
-    public String showDesignForm(Model model) {
+    public String showDesignForm(Model model, Principal principal) {
         List<Ingredient> ingredients = new ArrayList<>();
         ingredientRepository.findAll().forEach(ingredients::add);
 
@@ -53,6 +55,10 @@ public class DesignTacoController {
             model.addAttribute(type.toString().toLowerCase(),
                     filterByType(ingredients, type));
         }
+
+        String username = principal.getName();
+        User user = userRepository.findByUsername(username);
+        model.addAttribute("user", user);
 
         return "design";
     }

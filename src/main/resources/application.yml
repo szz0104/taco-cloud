@@ -1,7 +1,6 @@
 server:
   # 应用服务 WEB 访问端口
   port: 5555
-
 spring:
   application:
     # 应用名称
@@ -16,11 +15,11 @@ spring:
       # DDL 模式。
       ddl-auto: update
 
-  #  sql:
-  #    init:
-  #      # 确定是否应执行初始化时应用的模式。默认：embedded
-  #      # always始终初始化数据库。embedded仅初始化嵌入式数据库。never永远不要初始化数据库。
-  #      mode: always
+  sql:
+    init:
+      # 确定是否应执行初始化时应用的模式。默认：embedded
+      # always始终初始化数据库。embedded仅初始化嵌入式数据库。never永远不要初始化数据库。
+      mode: always
   #      # 创建表的 Sql 语句位置
   #      schema-locations: classpath:schema.sql
   #      # 插入数据的 Sql 语句的位置

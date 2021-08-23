@@ -5,6 +5,7 @@ import org.htsg.tacocloud.repository.IngredientRepository;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.Optional;
 
 /**
@@ -13,12 +14,8 @@ import java.util.Optional;
 @Component
 public class IngredientByIdConverter implements Converter<String, Ingredient> {
 
-    final
+    @Resource
     IngredientRepository repository;
-
-    public IngredientByIdConverter(IngredientRepository repository) {
-        this.repository = repository;
-    }
 
     @Override
     public Ingredient convert(String source) {
